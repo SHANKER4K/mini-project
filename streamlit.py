@@ -23,6 +23,27 @@ from sklearn.metrics import (
 from sklearn.model_selection import train_test_split, GridSearchCV, KFold
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
+import random
+import subprocess
+import sys
+def install_packages():
+    """Install required packages if not already installed."""
+    packages = [
+        "streamlit",
+        "pandas",
+        "numpy",
+        "plotly",
+        "seaborn",
+        "matplotlib",
+        "scikit-learn",
+    ]
+    for package in packages:
+        try:
+            __import__(package)
+        except ImportError:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+install_packages()
 # Initialize session state for model persistence
 if "trained_models" not in st.session_state:
     st.session_state.trained_models = {"svm": None, "logreg": None, "rf": None, "gb": None}
@@ -129,7 +150,7 @@ def generate_random_customer():
 
 def generate_random_bank_customer():
     """Generate random bank customer data for prediction testing."""
-    import random
+
     return {
         "CreditScore": random.randint(350, 850),
         "Geography": random.choice(["France", "Spain", "Germany"]),
